@@ -7,3 +7,6 @@
 2. git clone
 3. repository url 입력 후 폴더 지정.
 4. 스테이징 -> 커밋 -> Push
+
+
+## JS 중급 - 지뢰찾기
