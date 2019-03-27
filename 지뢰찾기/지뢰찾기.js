@@ -12,11 +12,19 @@ document.querySelector('#exec').addEventListener('click', function() {
     var tbody = document.querySelector('#table tbody');
 
     // 세로에 입력한 숫자 만큼 반복.
-    for(var i=0; i < ver; i++) {
+    // 이차원 배열
+    for(var i=0; i < ver; i++) { // 세로 10개
         var arr = [];
-        var tr = document.createElement('tr'); //
-        dataset.push[arr];        
-
+        var tr = document.createElement('tr');
+        dataset.push[arr];
+        // console.log('dataset', dataset);
+        for(var j=0; j < hor; j++) { // 가로 10개
+            arr.push(1);
+            var td = document.createElement('td');
+            tr.append(td);
+            td.textContent = 1;
+        }
+        tbody.appendChild(tr);
     }
-
+    console.log(dataset);
 });
