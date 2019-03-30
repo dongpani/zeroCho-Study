@@ -1,13 +1,17 @@
 
+var dataset = [];
+var tbody = document.querySelector('#table tbody');
+
 // 실행 버튼을 눌렀을 때 각 input 태그의 값을 가져옴.
 document.querySelector('#exec').addEventListener('click', function() {
     var hor = parseInt(document.querySelector('#hor').value); // 가로
     var ver = parseInt(document.querySelector('#ver').value); // 세로
     var mine = parseInt(document.querySelector('#mine').value);  // 지뢰
 
+    // console.log(`her=${hor}, ver=${ver}, mine=${mine}`);
 
     var 후보군 = Array(hor*ver).fill().map(function(요소, 인덱스) {
-        return 인덱스 + 1;
+        return 인덱스;
     });
 
     console.log('후보군', 후보군);
@@ -24,20 +28,11 @@ document.querySelector('#exec').addEventListener('click', function() {
 
     console.log('셔플', 셔플);
 
-//    console.log(`her=${hor}, ver=${ver}, mine=${mine}`);
-
-    var dataset = [];
-
-    var tbody = document.querySelector('#table tbody');
-
-    // 세로에 입력한 숫자 만큼 반복.
-    // 이차원 배열
     for(var i=0; i < ver; i++) { // 세로 10개
         var arr = [];
         var tr = document.createElement('tr');
-        dataset.push[arr];
-        // console.log('dataset', dataset);
-        for(var j=0; j < hor; j++) { // 가로 10개
+        dataset.push(arr);
+        for(var j=0; j<hor; j++) { // 가로 10개
             arr.push(1);
             var td = document.createElement('td');
             tr.append(td);
@@ -46,14 +41,15 @@ document.querySelector('#exec').addEventListener('click', function() {
         tbody.appendChild(tr);
     }
 
-    // 지뢰 심기 => 20개
+    // 지뢰심기 
     for(var k=0; k<셔플.length; k++) {
         var 세로 = Math.floor(셔플[k] / 10);
         var 가로 = 셔플[k] % 10;
-        console.log(세로, 가로);
-        tbody.children[세로].children[가로].textContent = 'X';
 
-        // console.log(dataset[세로][가로]);
+        console.log('세로', 세로, '가로', 가로);
+        tbody.children[세로].children[가로].textContent = 'X';
+        dataset[세로][가로] = 'X';
+
     }
 
     console.log(dataset);
