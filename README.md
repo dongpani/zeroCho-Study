@@ -16,11 +16,9 @@ JS 에서 비동기란, 코드가 모두 처리되지 않은 상태에서 다음
 ## JS 중급 - 지뢰찾기 (키워드 : 스코프, 클로저)
 1. 데이터와 화면을 일치시키는게 중요. 이 것이 개발하는데 굉장한 피로감을 주므로, 좋은 효율성을 위해 JS 프레임워크들이 등장하게 된 것이다.
 2. e.currentTarget : 클릭이벤트의 위치를 반환함.
-
-```
-var 칸 = Array.prototype.indexOf.call(부모tr.children, e.currentTarget);
-var 줄 = Array.prototype.indexOf.call(부모tbody.children, 부모tr);
-```
+3. currentTarget 와 target 의 차이
+    currentTarget : 이벤트리스너를 발생시킨 대상.
+    target : 실제 이벤트가 발생한 대상.
 
 
 
