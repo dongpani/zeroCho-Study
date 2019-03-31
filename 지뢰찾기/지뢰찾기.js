@@ -4,8 +4,8 @@ var tbody = document.querySelector('#table tbody');
 
 // 실행 버튼을 눌렀을 때 각 input 태그의 값을 가져옴.
 document.querySelector('#exec').addEventListener('click', function() {
-    var hor = parseInt(document.querySelector('#hor').value); // 가로
-    var ver = parseInt(document.querySelector('#ver').value); // 세로
+    var hor = parseInt(document.querySelector('#hor').value);    // 가로
+    var ver = parseInt(document.querySelector('#ver').value);    // 세로
     var mine = parseInt(document.querySelector('#mine').value);  // 지뢰
 
     // console.log(`her=${hor}, ver=${ver}, mine=${mine}`);
@@ -35,6 +35,22 @@ document.querySelector('#exec').addEventListener('click', function() {
         for(var j=0; j<hor; j++) { // 가로 10개
             arr.push(1);
             var td = document.createElement('td');
+            // 마우스 오른쪽 버튼을 클릭했을 때
+            td.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                var 부모tr = e.currentTarget.parentNode;
+                var 부모tbody = 부모tr.parentNode;
+                // var 부모tbody = e.currentTarget.parentNode.parentNode;
+                console.log('부모tr=', 부모tr, '부모tbody', 부모tbody);
+
+                var 칸 = Array.prototype.indexOf.call(부모tr.children, e.currentTarget);
+                var 줄 = Array.prototype.indexOf.call(부모tbody.children, 부모tr);
+                
+                // console.log(칸, 줄);
+                e.currentTarget.textContent = '!';
+                dataset[줄][칸] = '!';
+
+            });
             tr.append(td);
             // td.textContent = 1;
         }
@@ -49,8 +65,6 @@ document.querySelector('#exec').addEventListener('click', function() {
         console.log('세로', 세로, '가로', 가로);
         tbody.children[세로].children[가로].textContent = 'X';
         dataset[세로][가로] = 'X';
-
     }
-
     console.log(dataset);
 });
