@@ -4,6 +4,8 @@ var tbody = document.querySelector('#table tbody');
 
 // 실행 버튼을 눌렀을 때 각 input 태그의 값을 가져옴.
 document.querySelector('#exec').addEventListener('click', function() {
+tbody.innerHTML = '';
+
     var hor = parseInt(document.querySelector('#hor').value);    // 가로
     var ver = parseInt(document.querySelector('#ver').value);    // 세로
     var mine = parseInt(document.querySelector('#mine').value);  // 지뢰
@@ -45,10 +47,21 @@ document.querySelector('#exec').addEventListener('click', function() {
 
                 var 칸 = Array.prototype.indexOf.call(부모tr.children, e.currentTarget);
                 var 줄 = Array.prototype.indexOf.call(부모tbody.children, 부모tr);
+
+                console.log('줄칸', dataset[줄][칸]);
                 
                 // console.log(칸, 줄);
-                e.currentTarget.textContent = '!';
-                dataset[줄][칸] = '!';
+                if(e.currentTarget.textContent === '' || e.currentTarget.textContent === 'X') {
+                    e.currentTarget.textContent ='!';
+                } else if(e.currentTarget.textContent === '!') {
+                    e.currentTarget.textContent = '?';
+                } else if(e.currentTarget.textContent === '?') {
+                    if (dataset[줄][칸] === 'X') {
+                        e.currentTarget.textContent = 'X';
+                    } else {
+                        e.currentTarget.textContent = '';
+                    }
+                }
 
             });
             tr.append(td);
