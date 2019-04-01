@@ -1,23 +1,16 @@
 /*
 
-스코프는 함수 단위.
+스코프 : 함수의 블럭 단위로 제한
 
 */
 
-const scope = function () {
-    const a = 1;
-    const b = 'B';
-    console.log(a);
+const x = '스타벅스';
 
-    const scope2 = function() {
-        const a = 2;
-        console.log(a);
-        console.log(b);
-    };
+const scope = function() {
+    var x = '할리스';
+    console.log(x);
+}
 
-    scope2();
-
-};
-
-scope();
-
+scope();        // 할리스
+console.log(x); // 스타벅스
+console.log(scope.x); // undefined
