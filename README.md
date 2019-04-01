@@ -40,26 +40,26 @@ console.log(scope.x); // undefined
 함수안에서 var, const, let 을 사용하는 순간 그 변수의 범위는 사용한 함수 블록안으로 제한된다.
 
 5. 스코프 체인
-- **스코프 체인**이란 찾고자하는 변수가 해당 블록안에 없을 시 바로 위의 함수로 올라가 탐색하는 것을 말한다.
+    - **스코프 체인**이란 찾고자하는 변수가 해당 블록안에 없을 시 바로 위의 함수로 올라가 탐색하는 것을 말한다.
 
-```
-const x = '스타벅스';
-const y = '빽다방';
+    ```
+    const x = '스타벅스';
+    const y = '빽다방';
 
-const scope = function() {
-    const x = '할리스';
+    const scope = function() {
+        const x = '할리스';
 
-    function chain() {
-        console.log(x);
+        function chain() {
+            console.log(x);
+        }
+
+        chain();
+        console.log(y);
     }
 
-    chain();
-    console.log(y);
-}
-
-scope(); // 할리스, 뺵다방
-console.log(scope.x);  // undefined
-```
-
+    scope(); // 할리스, 뺵다방
+    console.log(scope.x);  // undefined
+    ```
+    
 위 처럼 찾고자하는 변수가 자신의 블록에 없으면 자신을 감싼 함수에서 그 변수를 찾는다. <br>
 '스코프 체인'은 내부에서 외부로 접근은 가능하지만, 외부에서 내부변수로는 접근이 불가능하다.
