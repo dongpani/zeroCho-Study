@@ -62,7 +62,34 @@ tbody.innerHTML = '';
                         e.currentTarget.textContent = '';
                     }
                 }
+            });
 
+            td.addEventListener('click', function(e) {
+                var 부모tr = e.currentTarget.parentNode;
+                var 부모tbody = e.currentTarget.parentNode.parentNode;
+                var 칸 = Array.prototype.indexOf.call(부모tr.children, e.currentTarget);
+                var 줄 = Array.prototype.indexOf.call(부모tbody.children, 부모tr);
+                
+                if(dataset[줄][칸] === 'X') {
+                    e.currentTarget.textContent = '펑';
+                } else {
+                    // 둘러싼 지뢰찾기 : 8개
+                    var 주변 = [
+                                dataset[줄][칸-1], dataset[줄][칸+1] // 왼쪽, 오른쪽
+                               ];
+
+                    if(dataset[줄-1]) {  // 위에 왼쪽, 바로 위쪽, 위에 오른쪽
+                        console.log('위');
+                        주변 = 주변.concat(dataset[줄-1][칸-1], dataset[줄-1][칸], dataset[줄-1][칸+1]);
+                    }
+                    
+                    if(dataset[줄+1]) {  // 밑에 왼쪽, 바로 밑쪽, 밑에 오른쪽
+                        주변 = 주변.concat(dataset[줄+1][칸-1], dataset[줄+1][칸], dataset[줄+1][칸+1]);
+                    }
+                    e.currentTarget.textContent = 주변.filter(function(v) {
+                                                       return v === 'X';
+                                                  }).length;
+                }
             });
             tr.append(td);
             // td.textContent = 1;
