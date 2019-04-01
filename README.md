@@ -21,21 +21,20 @@ JS 에서 비동기란, 코드가 모두 처리되지 않은 상태에서 다음
     - target : 실제 이벤트가 발생한 대상.
 
 4. 스코프와 스코프 체인
-- **스코프**란 함수, 변수, 객체의 접근 제한을 블록 단위({...}) 로 제한을 두는 것이다.
+    - **스코프**란 함수, 변수, 객체의 접근 제한을 블록 단위({...}) 로 제한을 두는 것이다.
 
-```
-const x = '스타벅스';
+    ```
+    const x = '스타벅스';
 
-const scope = function() {
-    var x = '할리스';
-    console.log(x);
-}
+    const scope = function() {
+        var x = '할리스';
+        console.log(x);
+    }
 
-scope();        // 할리스
-console.log(x); // 스타벅스
-console.log(scope.x); // undefined    
-```
-
+    scope();        // 할리스
+    console.log(x); // 스타벅스
+    console.log(scope.x); // undefined    
+    ```
 만약, scope 함수안에 var 라는 변수선언문이 없다면, 할리스가 아닌 "스타벅스"를 호출하게 된다. <br>
 함수안에서 var, const, let 을 사용하는 순간 그 변수의 범위는 사용한 함수 블록안으로 제한된다.
 
@@ -60,6 +59,5 @@ console.log(scope.x); // undefined
     scope(); // 할리스, 뺵다방
     console.log(scope.x);  // undefined
     ```
-    
 위 처럼 찾고자하는 변수가 자신의 블록에 없으면 자신을 감싼 함수에서 그 변수를 찾는다. <br>
 '스코프 체인'은 내부에서 외부로 접근은 가능하지만, 외부에서 내부변수로는 접근이 불가능하다.
