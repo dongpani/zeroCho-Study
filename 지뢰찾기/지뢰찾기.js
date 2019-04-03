@@ -4,7 +4,10 @@ var tbody = document.querySelector('#table tbody');
 
 // 실행 버튼을 눌렀을 때 각 input 태그의 값을 가져옴.
 document.querySelector('#exec').addEventListener('click', function() {
+
+// 화면, 데이터 초기화    
 tbody.innerHTML = '';
+dataset = [];
 
     var hor = parseInt(document.querySelector('#hor').value);    // 가로
     var ver = parseInt(document.querySelector('#ver').value);    // 세로
@@ -69,6 +72,9 @@ tbody.innerHTML = '';
                 var 부모tbody = e.currentTarget.parentNode.parentNode;
                 var 칸 = Array.prototype.indexOf.call(부모tr.children, e.currentTarget);
                 var 줄 = Array.prototype.indexOf.call(부모tbody.children, 부모tr);
+
+                // 클릭한 칸에 배경색 변경 추가
+                e.currentTarget.classList.add('opened');
                 
                 if(dataset[줄][칸] === 'X') {
                     e.currentTarget.textContent = '펑';
@@ -86,9 +92,19 @@ tbody.innerHTML = '';
                     if(dataset[줄+1]) {  // 밑에 왼쪽, 바로 밑쪽, 밑에 오른쪽
                         주변 = 주변.concat(dataset[줄+1][칸-1], dataset[줄+1][칸], dataset[줄+1][칸+1]);
                     }
-                    e.currentTarget.textContent = 주변.filter(function(v) {
-                                                       return v === 'X';
-                                                  }).length;
+
+                    var 주변지뢰개수 = 주변.filter(function(v) {
+                                           return v === 'X'; 
+                                      }).length;
+
+                    // console.log('주변칸', 주변칸);
+                    e.currentTarget.textContent = 주변지뢰개수;
+
+                    // 주변에 지뢰가 없으면 한번에 오픈
+                    if(주변지뢰개수 === 0) {
+                        console.log('칸이 읎다.');
+                    }
+
                 }
             });
             tr.append(td);
