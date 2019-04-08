@@ -1,7 +1,9 @@
 var 스크린 = document.querySelector('#screen');
 
+var 시작시간;
+var 끝시간;
+
 스크린.addEventListener('click', function(e) {
-    var 시작시간;
 
     // 현지 시작전이라면 대기상태로 변경
     if(스크린.classList.contains('waiting')) {
@@ -14,13 +16,15 @@ var 스크린 = document.querySelector('#screen');
             시작시간 = new Date();
             스크린.click();
         }, Math.floor(Math.random() * 1000) + 2000);
+            
 
     } else if(스크린.classList.contains('ready')) {
         스크린.classList.remove('ready');
         스크린.classList.add('now');
         스크린.textContent = '클릭하세요.';
+        
     } else if (스크린.classList.contains('now')) {
-        var 끝시간 = new Date();
+        끝시간 = new Date();
 
         console.log('시작시간', 시작시간, '끝시간', 끝시간);
         console.log('반응속도', 끝시간 - 시작시간, 'ms');
