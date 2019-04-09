@@ -2,6 +2,7 @@ var 스크린 = document.querySelector('#screen');
 
 var 시작시간;
 var 끝시간;
+var 기록 = [];
 
 스크린.addEventListener('click', function(e) {
 
@@ -19,18 +20,30 @@ var 끝시간;
             
 
     } else if(스크린.classList.contains('ready')) {
-        스크린.classList.remove('ready');
-        스크린.classList.add('now');
-        스크린.textContent = '클릭하세요.';
-        
+
+        if(!시작시간) {
+            스크린.classList.remove('ready');
+            스크린.classList.add('waiting');
+            스크린.textContent = '부정 클릭입니다. 다시 시작하세요.';
+        } else {
+            스크린.classList.remove('ready');
+            스크린.classList.add('now');
+            스크린.textContent = '클릭하세요.';            
+        }     
+
+
+
     } else if (스크린.classList.contains('now')) {
         끝시간 = new Date();
 
-        console.log('시작시간', 시작시간, '끝시간', 끝시간);
-        console.log('반응속도', 끝시간 - 시작시간, 'ms');
+        let 시간차이 = 끝시간-시작시간;
+        기록.push(시간차이);
 
         스크린.classList.remove('now');
         스크린.classList.add('waiting');
         스크린.textContent = '클릭해서 시작하세요';
+
+        시작시간 = '';
+
     }
 }); 
