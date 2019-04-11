@@ -3,6 +3,35 @@ var 테이블 = document.createElement('table');
 var 줄들 = [];
 var 칸들 = [];
 var 턴 = 'X';
+var 결과체크;
+var 결과;
+
+결과체크 = function(몇줄, 몇칸, 턴) {
+    var 승리;
+
+    // 가로줄 검사
+    if(칸들[몇줄][0].textContent === 턴 && 칸들[몇줄][1].textContent === 턴 && 칸들[몇줄][2].textContent === 턴) {
+        승리 = true;
+    }
+
+    // 새로줄 검사
+    if(칸들[0][몇칸].textContent === 턴 && 칸들[1][몇칸].textContent === 턴 && 칸들[2][몇칸].textContent === 턴) {
+        승리 = true;
+    }        
+
+    // 대각선 검사 1
+    if(칸들[0][0].textContent === 턴 && 칸들[1][1].textContent === 턴 && 칸들[2][2].textContent === 턴) {
+        승리 = true;
+    }
+
+    // 대각선 검사 2
+    if(칸들[2][0].textContent === 턴 && 칸들[1][1].textContent === 턴 && 칸들[0][2].textContent === 턴) {
+        승리 = true;
+    }
+
+    return 승리;
+
+};
 
 
 /*
@@ -27,29 +56,11 @@ var 비동기콜백 = function(이벤트) {
     if(칸들[몇줄][몇칸].textContent === '') {
         칸들[몇줄][몇칸].textContent = 턴;
 
-        // 가로줄 검사
-        if(칸들[몇줄][0].textContent === 턴 && 칸들[몇줄][1].textContent === 턴 && 칸들[몇줄][2].textContent === 턴) {
-           승리 = true;
-        }
-
-        // 새로줄 검사
-        if(칸들[0][몇칸].textContent === 턴 && 칸들[1][몇칸].textContent === 턴 && 칸들[2][몇칸].textContent === 턴) {
-            승리 = true;
-        }        
-
-        // 대각선 검사 1
-        if(칸들[0][0].textContent === 턴 && 칸들[1][1].textContent === 턴 && 칸들[2][2].textContent === 턴) {
-            승리 = true;
-        }
-
-        // 대각선 검사 2
-        if(칸들[2][0].textContent === 턴 && 칸들[1][1].textContent === 턴 && 칸들[0][2].textContent === 턴) {
-            승리 = true;
-        }
-
         // 승리했으면 모든 칸의 textContent 를 값을 초기화 하라.
+        결과 = 결과체크(몇줄, 몇칸, 턴);
+        // console.log('결과', 결과);
 
-        if(승리) {
+        if(결과) {
             // console.log( 턴 + ' 님의 승리입니다.');
             alert(턴 + ' 님의 승리입니다.');
 
@@ -64,9 +75,48 @@ var 비동기콜백 = function(이벤트) {
 
         } else {
             // 차례가 끝났으면, 다음턴으로 넘긴다.
-            (턴 === 'X') ? 턴 = 'O' : 턴 = 'X';
+            // (턴 === 'X') ? 턴 = 'O' : 턴 = 'X';
+            if(턴 === 'X') {
+                턴 = 'O';
+            }
 
-            // 모든 칸을 조회하여 비어있는 칸을 찾는다.
+            // 모든 칸을 조회하여 비어있는 칸을 찾는다. (1초 뒤)
+            setTimeout(function() {
+              console.log('컴퓨터의 턴입니다.');  
+
+              var 후보칸 = [];
+
+              칸들.forEach(function (줄) {
+                  줄.forEach(function (칸) {
+                      후보칸.push(칸);
+                  });
+              });
+
+              // filter 함수는 true 값만 리턴 해 주므로 공백이면 false 를 리컨하므로 앞에 ! 를 붙혀서 true 를 만든다.
+              // '', 0, Nan, undefined, null, false
+              후보칸 = 후보칸.filter(function(칸) {
+                                         return !칸.textContent
+                                    });   
+
+              var 선택칸 = 후보칸[Math.floor(Math.random() * 후보칸.length)];
+              선택칸.textContent = 턴;
+
+            //   클릭이벤트의 몇줄, 몇칸만 체크함.
+
+              // console.log('선택칸', 선택칸);
+
+
+              // 컴퓨터가 승리했는지 체크
+
+              // 턴을 넘긴다.
+              턴 = 'X';
+
+            }, 1000);
+
+            
+            // console.log('ㅇㅇㅇㅇ', 칸들[0][0].textContent);
+
+
             // 그 칸의 인덱스를 저장한다.
             // 저장한 index 를 랜덤으로 돌린다.
             // 랜덤으로 하나만 뽑아 'O' 를 찍어준다.
