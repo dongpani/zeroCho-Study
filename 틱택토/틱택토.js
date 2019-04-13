@@ -6,8 +6,12 @@ var 턴 = 'X';
 var 결과체크;
 var 결과;
 
+
+// 가로, 세로, 대각선 검사 함수
 결과체크 = function(몇줄, 몇칸, 턴) {
-    var 승리;
+    console.log('몇줄', 몇줄, '몇칸', 몇칸, '턴', 턴);
+
+    var 승리 = false;
 
     // 가로줄 검사
     if(칸들[몇줄][0].textContent === 턴 && 칸들[몇줄][1].textContent === 턴 && 칸들[몇줄][2].textContent === 턴) {
@@ -29,25 +33,33 @@ var 결과;
         승리 = true;
     }
 
+
+    if(승리) {
+        setTimeout(() => {
+            초기화();    
+        }, 1000);
+    }
+
+    // console.log('칸들', 칸들);
+
     return 승리;
 
 };
 
 
-/*
-배열안에 배열 -> 2차원 배열 및 다차원 배열
+// 승리 하였을 때 데이터 및 텍스트 초기화
+var 초기화 = function() {
+    칸들.forEach(function (줄) {
+        줄.forEach(function (칸) {
+            칸.textContent = '';
+        });
+    });    
+};
 
-var 칸들 = [];
-
-       0             1              2
-[ [td, td, td], [td, td, td], [td, td, td] ]
-
-*/
 
 var 비동기콜백 = function(이벤트) {
     var 몇줄 = 줄들.indexOf(이벤트.target.parentNode);
     var 몇칸 = 칸들[몇줄].indexOf(이벤트.target);
-    var 승리 = false;
 
     // console.log('몇줄', 몇줄, '몇칸', 몇칸);
     // console.log('무엇인가?', 칸들[몇줄][몇칸]);
@@ -62,23 +74,11 @@ var 비동기콜백 = function(이벤트) {
 
         if(결과) {
             // console.log( 턴 + ' 님의 승리입니다.');
-            alert(턴 + ' 님의 승리입니다.');
-
+            alert('나의 승리입니다.');
             // 턴을 초기화 한다.
             턴 = 'X';
 
-            칸들.forEach(function (줄) {
-                줄.forEach(function (칸) {
-                    칸.textContent = '';
-                });
-            });
-
         } else {
-            // 차례가 끝났으면, 다음턴으로 넘긴다.
-            // (턴 === 'X') ? 턴 = 'O' : 턴 = 'X';
-            if(턴 === 'X') {
-                턴 = 'O';
-            }
 
             // 모든 칸을 조회하여 비어있는 칸을 찾는다. (1초 뒤)
             setTimeout(function() {
@@ -92,19 +92,28 @@ var 비동기콜백 = function(이벤트) {
                   });
               });
 
-              // filter 함수는 true 값만 리턴 해 주므로 공백이면 false 를 리컨하므로 앞에 ! 를 붙혀서 true 를 만든다.
+              // filter 함수는 true 값만 리턴 해 주므로 공백이면 false 를 리턴하므로 앞에 ! 를 붙혀서 true 를 만든다.
               // '', 0, Nan, undefined, null, false
               후보칸 = 후보칸.filter(function(칸) {
                                          return !칸.textContent
-                                    });   
+                                    });
+                                    
+              선택칸 = 후보칸[Math.floor(Math.random() * 후보칸.length)];
 
-              var 선택칸 = 후보칸[Math.floor(Math.random() * 후보칸.length)];
-              선택칸.textContent = 턴;
+              선택칸.textContent = 'O';
 
-            //   클릭이벤트의 몇줄, 몇칸만 체크함.
+              var 몇줄 = 줄들.indexOf(선택칸.parentNode);
+              var 몇칸 = 칸들[몇줄].indexOf(선택칸);
 
-              // console.log('선택칸', 선택칸);
+              // console.log('몇줄', 몇줄, '몇칸', 몇칸, '턴', 턴);
 
+              결과 = 결과체크(몇줄, 몇칸, 'O');
+
+              if(결과) {
+                alert('컴퓨너의 승리입니다.');
+              }
+
+              // 클릭이벤트의 몇줄, 몇칸만 체크함.
 
               // 컴퓨터가 승리했는지 체크
 
