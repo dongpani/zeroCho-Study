@@ -46,7 +46,6 @@ var 결과;
 
 };
 
-
 // 승리 하였을 때 데이터 및 텍스트 초기화
 var 초기화 = function() {
     칸들.forEach(function (줄) {
@@ -72,31 +71,37 @@ var 비동기콜백 = function(이벤트) {
         결과 = 결과체크(몇줄, 몇칸, 턴);
         // console.log('결과', 결과);
 
+
+        var 후보칸 = [];
+
+        칸들.forEach(function (줄) {
+            줄.forEach(function (칸) {
+                후보칸.push(칸);
+            });
+        });
+
+        // filter 함수는 true 값만 리턴 해 주므로 공백이면 false 를 리턴하므로 앞에 ! 를 붙혀서 true 를 만든다.
+        // '', 0, Nan, undefined, null, false
+        후보칸 = 후보칸.filter(function(칸) {
+                                   return !칸.textContent
+                              });     
+
         if(결과) {
             // console.log( 턴 + ' 님의 승리입니다.');
             alert('나의 승리입니다.');
             // 턴을 초기화 한다.
             턴 = 'X';
 
+        } else if(후보칸.length === 0) {
+            alert('무승부 입니다');
+            초기화();
         } else {
 
             // 모든 칸을 조회하여 비어있는 칸을 찾는다. (1초 뒤)
             setTimeout(function() {
               console.log('컴퓨터의 턴입니다.');  
 
-              var 후보칸 = [];
 
-              칸들.forEach(function (줄) {
-                  줄.forEach(function (칸) {
-                      후보칸.push(칸);
-                  });
-              });
-
-              // filter 함수는 true 값만 리턴 해 주므로 공백이면 false 를 리턴하므로 앞에 ! 를 붙혀서 true 를 만든다.
-              // '', 0, Nan, undefined, null, false
-              후보칸 = 후보칸.filter(function(칸) {
-                                         return !칸.textContent
-                                    });
                                     
               선택칸 = 후보칸[Math.floor(Math.random() * 후보칸.length)];
 
