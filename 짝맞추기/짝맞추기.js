@@ -3,6 +3,8 @@ var 세로 = 3;
 var 색깔후보 = ['red', 'red', 'orange', 'orange', 'green', 'green', 'yellow', 'yellow', 'white', 'white', 'pink', 'pink'];
 var 색깔 = [];
 var 클릭플래그 = true;
+var 클릭카드 = [];
+var 완성카드  = [];
 
 // 색깔후보군의 index 를 하나씩 잘라서 색깔 배열에 넣는다.
 for(var i=0; 색깔후보.length > 0; i++) {
@@ -32,8 +34,24 @@ function 카드세팅(가로, 세로) {
       // 클로저 문제로 즉시 실행 함수를 사용하여, 비동기함수를 감싼다.
     (function(c) {
       card.addEventListener('click', function() {
-        if(클릭플래그) {
+        if(클릭플래그 && !완성카드.includes(c)) {
           c.classList.toggle('flipped');
+          클릭카드.push(c);
+          if(클릭카드.length === 2) {
+              if(클릭카드[0].querySelector('.card-back').style.backgroundColor === 클릭카드[1].querySelector('.card-back').style.backgroundColor) {
+                완성카드.push(클릭카드[0]);
+                완성카드.push(클릭카드[1]);
+                클릭카드 = [];
+              } else {
+                클릭플래그 = false;
+                setTimeout(function() {
+                  클릭카드[0].classList.remove('flipped');
+                  클릭카드[1].classList.remove('flipped');
+                  클릭플래그 = true;
+                  클릭카드 = [];
+                }, 1000);                
+              }
+          }
         }
       });
     })(card);
