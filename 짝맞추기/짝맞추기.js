@@ -1,15 +1,19 @@
 var 가로 = 4;
 var 세로 = 3;
-var 색깔후보 = ['red', 'red', 'orange', 'orange', 'green', 'green', 'yellow', 'yellow', 'white', 'white', 'pink', 'pink'];
+var 색깔들 = ['red', 'red', 'orange', 'orange', 'green', 'green', 'yellow', 'yellow', 'white', 'white', 'pink', 'pink'];
+var 색깔후보 = 색깔들.slice(); // 객체참조복사가 되므로, slice 메서드로 참조관계 해제
 var 색깔 = [];
 var 클릭플래그 = true;
 var 클릭카드 = [];
 var 완성카드  = [];
+var 시작시간;
 
 // 색깔후보군의 index 를 하나씩 잘라서 색깔 배열에 넣는다.
-for(var i=0; 색깔후보.length > 0; i++) {
-  색깔 = 색깔.concat(색깔후보.splice(Math.floor(Math.random() * 색깔후보.length), 1));  
-}
+var 셔플 = function() {
+  for(var i=0; 색깔후보.length > 0; i++) {
+    색깔 = 색깔.concat(색깔후보.splice(Math.floor(Math.random() * 색깔후보.length), 1));  
+  }
+};
 
 function 카드세팅(가로, 세로) {
   클릭플래그 = false;
@@ -42,6 +46,19 @@ function 카드세팅(가로, 세로) {
                 완성카드.push(클릭카드[0]);
                 완성카드.push(클릭카드[1]);
                 클릭카드 = [];
+                  
+                // 카드를 모두 뒤집었을 때
+                if(완성카드.length === 12) {
+                    var 끝시간 = new Date();
+                    alert('축하합니다.' + (끝시간-시작시간) / 1000 + '초 걸렸습니다.' );
+                    document.querySelector("#wrapper").innerHTML = '';
+                    색깔후보 = 색깔들.slice();
+                    완성카드 = [];
+                    카드세팅(가로, 세로);
+                    시작시간;
+                    셔플();
+                }
+
               } else {
                 클릭플래그 = false;
                 setTimeout(function() {
@@ -55,7 +72,7 @@ function 카드세팅(가로, 세로) {
         }
       });
     })(card);
-    document.body.appendChild(card);
+    document.querySelector("#wrapper").appendChild(card);
   }
 
   // 순서대로 카드 열기.
@@ -71,8 +88,10 @@ function 카드세팅(가로, 세로) {
       card.classList.remove('flipped');
     });  
     클릭플래그 = true;
+    시작시간 = new Date();
   }, 5000);
 
 }
 
+셔플();
 카드세팅(가로, 세로);
