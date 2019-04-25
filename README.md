@@ -125,7 +125,8 @@ JS 에서 비동기란, 코드가 모두 처리되지 않은 상태에서 다음
 
 ### 프로토타입
 자바스크립트에서 모든 객체는 prototype 을 가지고 있다. 이 prototype 을 가지고 객체들 간에 정보 공유가 가능하다.
-<img src="./screenshot/prototype.png" >
+<img src="./screenshot/prototype.png" />
+
 프로토 타입이랑 해당 객체가 가져야할 필수정의를 말한다.
 
 ### Call by value & Call by Reference
@@ -133,12 +134,14 @@ JS 에서 비동기란, 코드가 모두 처리되지 않은 상태에서 다음
 - 이 챕터는 잘 이해가 안감
 
 ### 생성자와 new
-<img src="./screenshot/생성자_new.png" >
+<img src="./screenshot/생성자_new.png" />
+
 - 코드상에 에러는 없지만 생상자 함수는 함수명을 꼭 대문자로 사용하기로 암묵적인 약속이다.
 - 생성자 함수를 호출할 때는 **반드시** 앞에 new 키워드를 써야한다. 
 - 프로토타입을 지정한다.
 
-<img src="./screenshot/생성자_window.png" >
+<img src="./screenshot/생성자_window.png" />
+
 - 생성자 함수를 호출할 때 new 를 사용하지 않으면 그냥 함수 호출이 되버린다.
 - this 가 붙었기 때문에 name 변수는 전역변수(window) 가 되버린다.
 - 그러므로 반드시 new 키워드를 붙여서 함수 스코프안에 변수를 존재하게 해야한다.
