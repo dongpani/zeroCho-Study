@@ -127,7 +127,7 @@ JS 에서 비동기란, 코드가 모두 처리되지 않은 상태에서 다음
 자바스크립트에서 모든 객체는 prototype 을 가지고 있다. 이 prototype 을 가지고 객체들 간에 정보 공유가 가능하다.
 <img src="./screenshot/prototype.png" >
 
-프로토 타입이랑 해당 객체가 가져야할 필수정의를 말한다.
+프로토 타입이란 해당 객체가 가져야할 필수정의를 말한다.
 
 ### Call by value & Call by Reference
 - 자바스크립트에는 'Call by value' 만 존재한다.
