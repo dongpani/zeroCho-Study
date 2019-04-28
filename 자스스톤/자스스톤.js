@@ -7,6 +7,7 @@ var 상대필드 = document.getElementById('rival-cards');
 var 내필드 = document.getElementById('my-cards');
 var 상대코스트 = document.getElementById('rival-cost');
 var 내코스트 = document.getElementById('my-cost');
+var 턴버튼 = document.getElementById('turn-btn');
 
 // 데이터
 var 상대덱data = [];
@@ -15,7 +16,7 @@ var 상대영웅data;
 var 내영웅data;
 var 상대필드data = [];
 var 내필드data = [];
-var 턴 = true;
+var 턴 = true;   // true : 나 / false : 상대
 
 
 function 카드돔연결(데이터, 돔, 영웅) {
@@ -53,6 +54,7 @@ function 카드돔연결(데이터, 돔, 영웅) {
                 카드돔연결(data, 내덱);
             });
             내코스트.textContent = 현재코스트 - 데이터.cost;
+            내덱생성(1);
             
         } else {
             if(데이터.mine) {
@@ -70,10 +72,11 @@ function 카드돔연결(데이터, 돔, 영웅) {
             상대필드data.forEach(function(data) {
                 카드돔연결(data, 상대필드);    
             });
-            내덱data.forEach(function(data) {
+            상대덱data.forEach(function(data) {
                 카드돔연결(data, 상대덱);
             });          
-            상대코스트.textContent = 현재코스트 - 데이터.cost;  
+            상대코스트.textContent = 현재코스트 - 데이터.cost;
+            상대덱생성(1);
         }
     });
     
@@ -85,18 +88,18 @@ function 상대덱생성(개수) {
         상대덱data.push(카드공장());
     }
 
+    상대덱.innerHTML = '';
     상대덱data.forEach(function(data) {
         카드돔연결(data, 상대덱);
     });  
 }
-
-// console.log(상대덱data);
 
 function 내덱생성(개수) {
     for(var i=0; i < 개수; i++) {
         내덱data.push(카드공장(false, true));
     }
 
+    내덱.innerHTML = '';
     내덱data.forEach(function(data) {
         카드돔연결(data, 내덱);
     });      
@@ -141,5 +144,10 @@ function 초기세팅() {
     내영웅생성();
     상대영웅생성();
 }
+
+턴버튼.addEventListener('click', function() {
+    console.log(턴);
+    턴 = !턴;
+});
 
 초기세팅();
