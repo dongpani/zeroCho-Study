@@ -8,7 +8,9 @@ var 상대 = {
     코스트 : document.getElementById('rival-cost'),
     덱data : [],
     영웅data : [],
-    필드data : []
+    필드data : [],
+    선택카드 : null,
+    선택카드data : null,
 }
 
 var 나 = {
@@ -18,7 +20,9 @@ var 나 = {
     코스트 : document.getElementById('my-cost'),
     덱data : [],
     영웅data : [],
-    필드data : []
+    필드data : [],
+    선택카드 : null,
+    선택카드data : null,
 }
 
 function 덱에서필드로(데이터, 내턴) {
@@ -64,12 +68,30 @@ function 카드돔연결(데이터, 돔, 영웅) {
     
     카드.addEventListener('click', function(e) {
         if(턴) {
-            if(!데이터.mine || 데이터.field) {
+            if(!데이터.mine) { // 상대 카드고 내 카드가 선택되어 있으면 공격
+              데이터.hp = 데이터.hp - 나.선택카드.att;
+              나.선택카드.classList.remove('card-selected');
+              나.선택카드.classList.add('card-turnover');
+              나.선택카드 = null;
+              나.선택카드data = null;
+              return;
+            } else if(!데이터.mine) { 
                 return;
             }
-            if (덱에서필드로(데이터, true) !== 'end') {
-                내덱생성(1);
-            };
+
+            if(데이터.field) {  // 필드에 있으면
+                카드.parentNode.querySelectorAll('.card').forEach(function(card) {
+                    card.classList.remove('card-selected');
+                });
+                카드.classList.add('card-selected');
+                나.선택카드 = 카드;
+                나.선택카드data = 데이터;
+                // console.log(나.선택카드);
+            } else {  // 덱에 있으면
+                if (덱에서필드로(데이터, true) !== 'end') {
+                    내덱생성(1);
+                };                
+            }
         } else {
             if(데이터.mine || 데이터.field) {
                 return;
