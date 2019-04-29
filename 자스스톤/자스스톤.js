@@ -34,7 +34,7 @@ function 카드돔연결(데이터, 돔, 영웅) {
     
     카드.addEventListener('click', function(e) {
         if(턴) {
-            if(!데이터.mine) {
+            if(!데이터.mine || 데이터.field) {
                 return;
             }
             var 현재코스트 = Number(내코스트.textContent);
@@ -53,6 +53,7 @@ function 카드돔연결(데이터, 돔, 영웅) {
             내덱data.forEach(function(data) {
                 카드돔연결(data, 내덱);
             });
+            데이터.field = true;
             내코스트.textContent = 현재코스트 - 데이터.cost;
             내덱생성(1);
             
