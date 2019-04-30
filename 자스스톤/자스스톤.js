@@ -52,6 +52,23 @@ function 덱에서필드로(데이터, 내턴) {
 var 턴버튼 = document.getElementById('turn-btn');
 var 턴 = true;   // true : 나 / false : 상대
 
+function 화면다시그리기(내화면) {
+    var 객체 = 내화면 ? 나 : 상대;
+
+    객체.덱.innerHTML = '';
+    객체.필드.innerHTML = '';
+    객체.영웅.innerHTML = '';
+
+    객체.필드data.forEach(function(data) {
+        카드돔연결(data, 객체.필드);
+    });    
+    객체.덱data.forEach(function(data) {
+        카드돔연결(data, 객체.덱);
+    });    
+
+    카드돔연결(객체.영웅data, 객체.영웅, true);
+}
+
 
 function 카드돔연결(데이터, 돔, 영웅) {
     var 카드 = document.querySelector('.card-hidden .card').cloneNode(true);
@@ -68,8 +85,9 @@ function 카드돔연결(데이터, 돔, 영웅) {
     
     카드.addEventListener('click', function(e) {
         if(턴) {
-            if(!데이터.mine) { // 상대 카드고 내 카드가 선택되어 있으면 공격
+            if(!데이터.mine && 나.선택카드 && !카드.classList.contains('card-turnover')) { // 내 덱에 있는 카드로 상대 영웅 공격
               데이터.hp = 데이터.hp - 나.선택카드.att;
+              화면다시그리기(false);
               나.선택카드.classList.remove('card-selected');
               나.선택카드.classList.add('card-turnover');
               나.선택카드 = null;
