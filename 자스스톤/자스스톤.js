@@ -33,7 +33,8 @@ function 덱에서필드로(데이터, 내턴) {
         alert('I have no money !');
         return 'end';
     }
-    var idx = 나.덱data.indexOf(데이터);
+    var idx = 객체.덱data.indexOf(데이터);  
+    console.log('idx', idx);
     객체.덱data.splice(idx, 1);
     객체.필드data.push(데이터);
     객체.덱.innerHTML = '';
@@ -76,36 +77,49 @@ function 카드돔연결(데이터, 돔, 영웅) {
     카드.querySelector('.card-att').textContent = 데이터.att;
     카드.querySelector('.card-hp').textContent = 데이터.hp;
 
-    if(영웅) {
+    // console.log('-------------');
+    // console.log(데이터.cost);
+    // console.log(데이터.att);
+    // console.log(데이터.hp);
+    // console.log('-------------');
+
+    if(영웅) { // 영웅이면 영웅이라는 텍스트를 출력
         카드.querySelector('.card-cost').style.display = 'none';
         var 이름 = document.createElement('div');
         이름.textContent = '영웅';
         카드.appendChild(이름);
     }
     
+    // 비동기 함수
     카드.addEventListener('click', function(e) {
-        if(턴) {
+        if(턴) { // 내 턴일 때
             if(!데이터.mine && 나.선택카드 && !카드.classList.contains('card-turnover')) { // 내 덱에 있는 카드로 상대 영웅 공격
-              데이터.hp = 데이터.hp - 나.선택카드.att;
+              데이터.hp = 데이터.hp - 나.선택카드data.att;
               화면다시그리기(false);
               나.선택카드.classList.remove('card-selected');
               나.선택카드.classList.add('card-turnover');
               나.선택카드 = null;
               나.선택카드data = null;
               return;
-            } else if(!데이터.mine) { 
-                return;
+            } else if(!데이터.mine) { // 
+               return;
             }
 
-            if(데이터.field) {  // 필드에 있으면
+            if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
+                console.log('요기요2');
                 카드.parentNode.querySelectorAll('.card').forEach(function(card) {
                     card.classList.remove('card-selected');
                 });
                 카드.classList.add('card-selected');
                 나.선택카드 = 카드;
                 나.선택카드data = 데이터;
-                // console.log(나.선택카드);
-            } else {  // 덱에 있으면
+
+                console.log('-- 선택카드')
+                console.log(나.선택카드);
+                console.log(나.선택카드data);
+                console.log('// -- 선택카드')
+
+            } else {  // 덱에있는 카드들 (5장) 을 필드로 옮김.
                 if (덱에서필드로(데이터, true) !== 'end') {
                     내덱생성(1);
                 };                
@@ -128,7 +142,9 @@ function 상대덱생성(개수) {
         상대.덱data.push(카드공장());
     }
 
-    상대.덱.innerHTML = '';
+    //console.log('상대.덱data', 상대.덱data);
+
+    상대.덱.innerHTML = ''; // 상대 덱 영역 -> 초기화
     상대.덱data.forEach(function(data) {
         카드돔연결(data, 상대.덱);
     });  
@@ -138,6 +154,8 @@ function 내덱생성(개수) {
     for(var i=0; i < 개수; i++) {
         나.덱data.push(카드공장(false, true));
     }
+
+    //console.log('나.덱data', 나.덱data);
 
     나.덱.innerHTML = '';
     나.덱data.forEach(function(data) {

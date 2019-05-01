@@ -67,7 +67,8 @@
                 color: white;
             }
             .card-hidden {
-                display: none;
+                /* display: none; */
+                background: blanchedalmond;
             }
 
             .card-selected {
@@ -87,50 +88,49 @@
     </head>
 <body>
 
-<!-- 상대 영웅  -->
-<div id="rival">
-    <div>코스트: <span id="rival-cost">10</span>/<span>10</span></div>
-    <div id="rival-hero"></div>
-    <div id="rival-cards" style="height: 150px">
-
+    <!-- 상대 영웅  -->
+    <div id="rival">
+        <div>코스트: <span id="rival-cost">10</span>/<span>10</span></div>
+        <div id="rival-hero"></div>
+        <div id="rival-cards" style="height: 150px">
+        </div>
     </div>
-</div>
 
-<!-- 상대 덱 -->
-<div id="rival-deck">
-    <div>덱</div>
-</div>
-
-<!-- 가로선 -->
-<hr />
-
-<!-- 턴 넘기기 버튼 -->
-<button id="turn-btn">턴넘기기</button>
-
-<!-- 내 영웅 -->
-<div id="my" class="turn">
-    <div id="my-cards" style="height: 150px">
-
+    <!-- 상대 덱 -->
+    <div id="rival-deck">
+        <div>덱</div>
     </div>
-    <div id="my-hero">
+
+    <!-- 가로선 -->
+    <hr />
+
+    <!-- 턴 넘기기 버튼 -->
+    <button id="turn-btn">턴넘기기</button>
+
+    <!-- 내 영웅 -->
+    <div id="my" class="turn">
+        <div id="my-cards" style="height: 150px">
+
+        </div>
+        <div id="my-hero">
+        </div>
+        <div>코스트: <span id="my-cost">10</span>/<span>10</span></div>
     </div>
-    <div>코스트: <span id="my-cost">10</span>/<span>10</span></div>
-</div>
 
-<!-- 내 덱 -->
-<div id="my-deck">
-    <div>덱</div>
-</div>
-
-<!-- 카드히든 -->
-<div class="card-hidden">
-    <div class="card">
-        <div class="card-cost"></div>
-        <div class="card-att"></div>
-        <div class="card-hp"></div>
+    <!-- 내 덱 -->
+    <div id="my-deck">
+        <div>덱</div>
     </div>
-</div>
 
-<script src="자스스톤.js"></script>
+    <!-- 카드히든 -->
+    <div class="card-hidden">
+        <div class="card">
+            <div class="card-cost"></div>
+            <div class="card-att"></div>
+            <div class="card-hp"></div>
+        </div>
+    </div>
+
+    <script src="자스스톤.js"></script>
 </body>
 </html>
