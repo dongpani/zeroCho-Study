@@ -93,7 +93,12 @@ function 카드돔연결(데이터, 돔, 영웅) {
     // 비동기 함수
     카드.addEventListener('click', function(e) {
         if(턴) { // 내 턴일 때
-            if(!데이터.mine && 나.선택카드 && !카드.classList.contains('card-turnover')) { // 내 덱에 있는 카드로 상대 영웅 공격
+
+            if(카드.classList.contains('card-turnover')) { // 턴오버된 카드가 클릭이 안되게 처리
+                return;
+            }
+
+            if(!데이터.mine && 나.선택카드) { // 내 덱에 있는 카드로 상대 영웅 공격
               데이터.hp = 데이터.hp - 나.선택카드data.att;
               화면다시그리기(false);
               나.선택카드.classList.remove('card-selected');
@@ -124,13 +129,43 @@ function 카드돔연결(데이터, 돔, 영웅) {
                     내덱생성(1);
                 };                
             }
-        } else {
-            if(데이터.mine || 데이터.field) {
+        } else { // 상대 턴
+
+            if(카드.classList.contains('card-turnover')) { // 턴오버된 카드가 클릭이 안되게 처리
                 return;
             }
-            if (덱에서필드로(데이터, false) !== 'end') {
-                상대덱생성(1);
-            };
+
+            // 상대가 내 영웅 공격
+            if(데이터.mine && 상대.선택카드) { // 상대 덱에 있는 카드로 내 영웅 공격
+                데이터.hp = 데이터.hp - 상대.선택카드data.att;
+                화면다시그리기(true);
+                상대.선택카드.classList.remove('card-selected');
+                상대.선택카드.classList.add('card-turnover');
+                상대.선택카드 = null;
+                상대.선택카드data = null;
+                return;
+            } else if(데이터.mine) {
+                 return;
+            }
+  
+            if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
+                카드.parentNode.querySelectorAll('.card').forEach(function(card) {
+                    card.classList.remove('card-selected');
+                });
+                카드.classList.add('card-selected');
+                상대.선택카드 = 카드;
+                상대.선택카드data = 데이터;
+
+                console.log('-- 선택카드')
+                console.log(상대.선택카드);
+                console.log(상대.선택카드data);
+                console.log('// -- 선택카드')
+
+            } else {  // 덱에있는 카드들 (5장) 을 필드로 옮김.
+                if (덱에서필드로(데이터, false) !== 'end') {
+                    상대덱생성(1);
+                };                
+            }
         }
     });
     
@@ -181,6 +216,7 @@ function Card(영웅, 내카드) {
         this.att =  Math.ceil(Math.random() * 2);
         this.hp = Math.ceil(Math.random() * 5) + 25;
         this.hero = true;
+        this.field = true;
     } else {
         this.att = Math.ceil(Math.random() * 5);
         this.hp = Math.ceil(Math.random() * 5);
@@ -204,8 +240,29 @@ function 초기세팅() {
 }
 
 턴버튼.addEventListener('click', function() {
-    console.log(턴);
-    턴 = !턴;
+    // 턴을 넘겼 을 때 턴오버 된 카드들을 다 풀어준다.
+    var 객체 = 턴 ? 나 : 상대;
+    document.getElementById('rival').classList.toggle('turn');
+    document.getElementById('my').classList.toggle('turn');    
+    // 필드에 있는 카드, 영웅 태그들을 날려버림.
+    객체.필드.innerHTML = ''; 
+    객체.영웅.innerHTML = '';
+
+    // 필드에 카드 다시 그림.
+    객체.필드data.forEach(function(data) {
+        카드돔연결(data, 객체.필드);
+    });
+
+    // 필드에 영웅을 다시그림
+    카드돔연결(객체.영웅data, 객체.영웅, true);
+
+    턴 = !턴; // 턴 넘김
+
+    if(턴) {
+        나.코스트.textContent = 10;
+    } else {
+        상대.코스트.textContent = 10;
+    }
 });
 
 초기세팅();
