@@ -71,6 +71,56 @@ function 화면다시그리기(내화면) {
 }
 
 
+function 턴액션수행(카드, 데이터, 내턴) {
+
+    var 아군 = 내턴 ? 나 : 상대;
+    var 적군 = 내턴 ? 상대 : 나;
+
+    if(카드.classList.contains('card-turnover')) { // 턴오버된 카드가 클릭이 안되게 처리
+        return;
+    }
+
+    var 적군카드 = 내턴 ? !데이터.mine : 데이터.mine;
+    if(적군카드 && 아군.선택카드) { // 내 덱에 있는 카드로 상대를 공격
+      데이터.hp = 데이터.hp - 아군.선택카드data.att;
+    
+      if(데이터.hp <= 0) { // 카드가 죽었을 때
+        var 인덱스 = 적군.필드data.indexOf(데이터); 
+        if(인덱스 > -1) { // 쫄병이 죽었을 때
+            적군.필드data.splice(인덱스, 1);
+        } else { // 영웅이 죽었 을때
+            alert('승리하셨습니다.');
+            초기세팅();
+        }
+      }
+
+      화면다시그리기(!내턴);
+      아군.선택카드.classList.remove('card-selected');
+      아군.선택카드.classList.add('card-turnover');
+      아군.선택카드 = null;
+      아군.선택카드data = null;
+      return;
+    } else if(적군카드) { // 
+       return;
+    }
+
+    if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
+        console.log('요기요2');
+        카드.parentNode.querySelectorAll('.card').forEach(function(card) {
+            card.classList.remove('card-selected');
+        });
+        카드.classList.add('card-selected');
+        아군.선택카드 = 카드;
+        아군.선택카드data = 데이터;
+
+    } else {  // 덱에있는 카드들 (5장) 을 필드로 옮김.
+        if (덱에서필드로(데이터, 내턴) !== 'end') {
+            내턴 ? 내덱생성(1) : 상대덱생성(1);
+        };                
+    }
+}
+
+
 function 카드돔연결(데이터, 돔, 영웅) {
     var 카드 = document.querySelector('.card-hidden .card').cloneNode(true);
     카드.querySelector('.card-cost').textContent = 데이터.cost;
@@ -91,104 +141,8 @@ function 카드돔연결(데이터, 돔, 영웅) {
     }
     
     // 비동기 함수
-    카드.addEventListener('click', function(e) {
-        if(턴) { // 내 턴일 때
-
-            if(카드.classList.contains('card-turnover')) { // 턴오버된 카드가 클릭이 안되게 처리
-                return;
-            }
-
-            if(!데이터.mine && 나.선택카드) { // 내 덱에 있는 카드로 상대를 공격
-              데이터.hp = 데이터.hp - 나.선택카드data.att;
-            
-              if(데이터.hp <= 0) { // 카드가 죽었을 때
-                var 인덱스 = 상대.필드data.indexOf(데이터); 
-                if(인덱스 > -1) { // 쫄병이 죽었을 때
-                    상대.필드data.splice(인덱스, 1);
-                } else { // 영웅이 죽었 을때
-                    alert('승리하셨습니다.');
-                    초기세팅();
-                }
-              }
-
-              화면다시그리기(false);
-              나.선택카드.classList.remove('card-selected');
-              나.선택카드.classList.add('card-turnover');
-              나.선택카드 = null;
-              나.선택카드data = null;
-              return;
-            } else if(!데이터.mine) { // 
-               return;
-            }
-
-            if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
-                console.log('요기요2');
-                카드.parentNode.querySelectorAll('.card').forEach(function(card) {
-                    card.classList.remove('card-selected');
-                });
-                카드.classList.add('card-selected');
-                나.선택카드 = 카드;
-                나.선택카드data = 데이터;
-
-                console.log('-- 선택카드')
-                console.log(나.선택카드);
-                console.log(나.선택카드data);
-                console.log('// -- 선택카드')
-
-            } else {  // 덱에있는 카드들 (5장) 을 필드로 옮김.
-                if (덱에서필드로(데이터, true) !== 'end') {
-                    내덱생성(1);
-                };                
-            }
-        } else { // 상대 턴
-
-            if(카드.classList.contains('card-turnover')) { // 턴오버된 카드가 클릭이 안되게 처리
-                return;
-            }
-
-            // 상대가 내 영웅 공격
-            if(데이터.mine && 상대.선택카드) { // 상대 덱에 있는 카드로 나를 공격
-                데이터.hp = 데이터.hp - 상대.선택카드data.att;
-
-                if(데이터.hp <= 0) { // 카드가 죽었을 때
-                    var 인덱스 = 나.필드data.indexOf(데이터); 
-                    if(인덱스 > -1) { // 쫄병이 죽었을 때
-                        나.필드data.splice(인덱스, 1);
-                    } else { // 영웅이 죽었 을때
-                        alert('졌습니다.');
-                        초기세팅();
-                    }
-                }
-
-                화면다시그리기(true);
-                상대.선택카드.classList.remove('card-selected');
-                상대.선택카드.classList.add('card-turnover');
-                상대.선택카드 = null;
-                상대.선택카드data = null;
-                return;
-            } else if(데이터.mine) {
-                 return;
-            }
-  
-            if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
-                카드.parentNode.querySelectorAll('.card').forEach(function(card) {
-                    card.classList.remove('card-selected');
-                });
-                카드.classList.add('card-selected');
-                상대.선택카드 = 카드;
-                상대.선택카드data = 데이터;
-
-                console.log('-- 선택카드')
-                console.log(상대.선택카드);
-                console.log(상대.선택카드data);
-                console.log('// -- 선택카드')
-
-            } else {  // 덱에있는 카드들 (5장) 을 필드로 옮김.
-                if (덱에서필드로(데이터, false) !== 'end') {
-                    상대덱생성(1);
-                };                
-            }
-        }
+    카드.addEventListener('click', function() {
+        턴액션수행(카드, 데이터, 턴);
     });
     
     돔.appendChild(카드);
