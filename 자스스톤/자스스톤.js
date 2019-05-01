@@ -37,14 +37,10 @@ function 덱에서필드로(데이터, 내턴) {
     console.log('idx', idx);
     객체.덱data.splice(idx, 1);
     객체.필드data.push(데이터);
-    객체.덱.innerHTML = '';
-    객체.필드.innerHTML = '';
-    객체.필드data.forEach(function(data) {
-        카드돔연결(data, 객체.필드);    
-    });
-    객체.덱data.forEach(function(data) {
-        카드돔연결(data, 객체.덱);
-    });
+   
+    필드다시그리기(객체);
+    덱다시그리기(객체);
+
     데이터.field = true;
     객체.코스트.textContent = 현재코스트 - 데이터.cost;
 }
@@ -70,18 +66,10 @@ function 덱다시그리기(객체) {
 function 화면다시그리기(내화면) {
     var 객체 = 내화면 ? 나 : 상대;
 
-    객체.덱.innerHTML = '';
-    객체.필드.innerHTML = '';
+    필드다시그리기(객체);
+    덱다시그리기(객체);
+
     객체.영웅.innerHTML = '';
-
-    객체.필드data.forEach(function(data) {
-        카드돔연결(data, 객체.필드);
-    });
-    
-    객체.덱data.forEach(function(data) {
-        카드돔연결(data, 객체.덱);
-    });    
-
     카드돔연결(객체.영웅data, 객체.영웅, true);
 }
 
@@ -120,7 +108,6 @@ function 턴액션수행(카드, 데이터, 내턴) {
     }
 
     if(데이터.field) {  // 필드에 있는 카드를 눌렀을 때
-        console.log('요기요2');
         카드.parentNode.querySelectorAll('.card').forEach(function(card) {
             card.classList.remove('card-selected');
         });
@@ -141,12 +128,6 @@ function 카드돔연결(데이터, 돔, 영웅) {
     카드.querySelector('.card-cost').textContent = 데이터.cost;
     카드.querySelector('.card-att').textContent = 데이터.att;
     카드.querySelector('.card-hp').textContent = 데이터.hp;
-
-    // console.log('-------------');
-    // console.log(데이터.cost);
-    // console.log(데이터.att);
-    // console.log(데이터.hp);
-    // console.log('-------------');
 
     if(영웅) { // 영웅이면 영웅이라는 텍스트를 출력
         카드.querySelector('.card-cost').style.display = 'none';
@@ -169,24 +150,16 @@ function 상대덱생성(개수) {
     }
 
     //console.log('상대.덱data', 상대.덱data);
+    덱다시그리기(상대);
 
-    상대.덱.innerHTML = ''; // 상대 덱 영역 -> 초기화
-    상대.덱data.forEach(function(data) {
-        카드돔연결(data, 상대.덱);
-    });  
 }
 
 function 내덱생성(개수) {
     for(var i=0; i < 개수; i++) {
         나.덱data.push(카드공장(false, true));
     }
-
     //console.log('나.덱data', 나.덱data);
-
-    나.덱.innerHTML = '';
-    나.덱data.forEach(function(data) {
-        카드돔연결(data, 나.덱);
-    });
+    덱다시그리기(나);
     
 }
 
@@ -240,10 +213,7 @@ function 초기세팅() {
     // 필드에 있는 카드, 영웅 태그들을 날려버림.
 
     // 필드에 카드 다시 그림.
-    객체.필드.innerHTML = ''; 
-    객체.필드data.forEach(function(data) {
-        카드돔연결(data, 객체.필드);
-    });
+    필드다시그리기(객체);
 
     // 필드에 영웅을 다시그림
     객체.영웅.innerHTML = '';
