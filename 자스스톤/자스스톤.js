@@ -98,8 +98,19 @@ function 카드돔연결(데이터, 돔, 영웅) {
                 return;
             }
 
-            if(!데이터.mine && 나.선택카드) { // 내 덱에 있는 카드로 상대 영웅 공격
+            if(!데이터.mine && 나.선택카드) { // 내 덱에 있는 카드로 상대를 공격
               데이터.hp = 데이터.hp - 나.선택카드data.att;
+            
+              if(데이터.hp <= 0) { // 카드가 죽었을 때
+                var 인덱스 = 상대.필드data.indexOf(데이터); 
+                if(인덱스 > -1) { // 쫄병이 죽었을 때
+                    상대.필드data.splice(인덱스, 1);
+                } else { // 영웅이 죽었 을때
+                    alert('승리하셨습니다.');
+                    초기세팅();
+                }
+              }
+
               화면다시그리기(false);
               나.선택카드.classList.remove('card-selected');
               나.선택카드.classList.add('card-turnover');
@@ -136,8 +147,19 @@ function 카드돔연결(데이터, 돔, 영웅) {
             }
 
             // 상대가 내 영웅 공격
-            if(데이터.mine && 상대.선택카드) { // 상대 덱에 있는 카드로 내 영웅 공격
+            if(데이터.mine && 상대.선택카드) { // 상대 덱에 있는 카드로 나를 공격
                 데이터.hp = 데이터.hp - 상대.선택카드data.att;
+
+                if(데이터.hp <= 0) { // 카드가 죽었을 때
+                    var 인덱스 = 나.필드data.indexOf(데이터); 
+                    if(인덱스 > -1) { // 쫄병이 죽었을 때
+                        나.필드data.splice(인덱스, 1);
+                    } else { // 영웅이 죽었 을때
+                        alert('졌습니다.');
+                        초기세팅();
+                    }
+                }
+
                 화면다시그리기(true);
                 상대.선택카드.classList.remove('card-selected');
                 상대.선택카드.classList.add('card-turnover');
@@ -237,6 +259,8 @@ function 초기세팅() {
     내덱생성(5);
     내영웅생성();
     상대영웅생성();
+    화면다시그리기(true);
+    화면다시그리기(false);
 }
 
 턴버튼.addEventListener('click', function() {
