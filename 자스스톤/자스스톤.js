@@ -53,6 +53,20 @@ function 덱에서필드로(데이터, 내턴) {
 var 턴버튼 = document.getElementById('turn-btn');
 var 턴 = true;   // true : 나 / false : 상대
 
+function 필드다시그리기(객체) {
+    객체.필드.innerHTML = ''; 
+    객체.필드data.forEach(function(data) {
+        카드돔연결(data, 객체.필드);
+    });
+}
+
+function 덱다시그리기(객체) {
+    객체.덱.innerHTML = '';
+    객체.덱data.forEach(function(data) {
+        카드돔연결(data, 객체.덱);
+    });
+}
+
 function 화면다시그리기(내화면) {
     var 객체 = 내화면 ? 나 : 상대;
 
@@ -62,7 +76,8 @@ function 화면다시그리기(내화면) {
 
     객체.필드data.forEach(function(data) {
         카드돔연결(data, 객체.필드);
-    });    
+    });
+    
     객체.덱data.forEach(function(data) {
         카드돔연결(data, 객체.덱);
     });    
@@ -171,7 +186,7 @@ function 내덱생성(개수) {
     나.덱.innerHTML = '';
     나.덱data.forEach(function(data) {
         카드돔연결(data, 나.덱);
-    });      
+    });
     
 }
 
@@ -223,15 +238,15 @@ function 초기세팅() {
     document.getElementById('rival').classList.toggle('turn');
     document.getElementById('my').classList.toggle('turn');    
     // 필드에 있는 카드, 영웅 태그들을 날려버림.
-    객체.필드.innerHTML = ''; 
-    객체.영웅.innerHTML = '';
 
     // 필드에 카드 다시 그림.
+    객체.필드.innerHTML = ''; 
     객체.필드data.forEach(function(data) {
         카드돔연결(data, 객체.필드);
     });
 
     // 필드에 영웅을 다시그림
+    객체.영웅.innerHTML = '';
     카드돔연결(객체.영웅data, 객체.영웅, true);
 
     턴 = !턴; // 턴 넘김
