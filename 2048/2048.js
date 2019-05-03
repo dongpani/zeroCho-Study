@@ -21,19 +21,26 @@ function 초기화() {
 }
 
 function 랜덤생성() {
-    var 빈칸배열 = [];
+    var 빈칸배열 = []; // 빈 배열 생성.
 
-    데이터.forEach(function(열데이터, i) {
-        열데이터.forEach(function(행데이터, j) {
-            if(!행데이터) {
+    console.log('데이터', 데이터);
+    
+    //  console.log(데이터); // [ [0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0] ]
+    //                               
+
+    데이터.forEach(function(열데이터, i) { // 행
+        열데이터.forEach(function(행데이터, j) { // 열
+            if(!행데이터) { // 
                 빈칸배열.push([i, j]);
             }
         });
     });
-
+    
     var 랜덤칸 = 빈칸배열[Math.floor(Math.random() * 빈칸배열.length)];
+    // console.log('랜덤칸', 랜덤칸);
+
     데이터[랜덤칸[0]][랜덤칸[1]] = 2;
-    그리기();
+    그리기(); // 그리기 실행
 }
 
 function 그리기() {
@@ -51,3 +58,32 @@ function 그리기() {
 초기화();
 랜덤생성();
 그리기();
+
+var 드래그시작 = false; // 마우스가 클릭할 때만 움직임을 감지하게끔
+var 시작좌표;
+var 끝좌표;
+
+// 마우스를 누를 때
+window.addEventListener('mousedown', function(이벤트) {
+    console.log('mousedown', 이벤트);
+    드래그시작 = true;
+    시작좌표 = [이벤트.clientX, 이벤트.clientY]; // 마우스를 누른 시점에 x, y 좌표를 가져옴.
+    console.log(시작좌표);
+});
+
+// 마우스 움직일 때
+window.addEventListener('mousemove', function(이벤트) {
+    if(드래그시작) {
+        console.log('mousemove', 이벤트);
+    }
+    
+});
+
+// 마우스를 뗄 떄
+window.addEventListener('mouseup', function(이벤트) {
+    console.log('mouseup', 이벤트);
+    드래그시작 = false;
+    끝좌표 = [이벤트.clientX, 이벤트.clientY]; // 마우스를 땐 시점의 좌표
+    console.log(끝좌표);
+});
+
