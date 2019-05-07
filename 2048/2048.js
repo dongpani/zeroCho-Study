@@ -102,12 +102,38 @@ window.addEventListener('mouseup', function(이벤트) {
 
     드래그시작 = false;
     드래그중 = false;
+    
+    console.log(방향);
 
     // 드래그 방향에 따라 숫자 이동하기
     switch (방향) {
         case '왼쪽':
             break;
+
         case '오른쪽':
+            var 새데이터 = [
+                [],
+                [],
+                [],
+                []
+            ];
+            데이터.forEach(function(열데이터, i) {
+                열데이터.forEach(function(행데이터, j) {
+                    if(행데이터) {
+                        새데이터[j].unshift(행데이터);
+                    }
+                });
+            });
+            
+            // console.log('새데이터', 새데이터);
+            
+            // 오른쪽으로 드래그
+            [1, 2, 3, 4].forEach(function(행데이터, i) {
+                [1, 2, 3, 4].forEach(function(열데이터, j) {
+                    데이터[i][3-j] = 새데이터[i][j] || 0; 
+                });
+            });
+
             break;
         case '위':
             var 새데이터 = [
@@ -129,7 +155,7 @@ window.addEventListener('mouseup', function(이벤트) {
             // 맨위로 올림
             [1, 2, 3, 4].forEach(function(행데이터, i) {
                 [1, 2, 3, 4].forEach(function(열데이터, j) {
-                    데이터[j][i] = 새데이터[i][j] || 0; // 값이 없으면 0
+                    데이터[j][i] = 새데이터[i][j] || 0;
                 });
             });
 
@@ -157,8 +183,6 @@ window.addEventListener('mouseup', function(이벤트) {
                     데이터[3-j][i] = 새데이터[i][j] || 0; // 값이 없으면 0
                 });
             });
-            
-
             break;
     }
 
