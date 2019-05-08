@@ -77,7 +77,7 @@ window.addEventListener('mousemove', function(이벤트) {
     
 });
 
-// 마우스를 뗄 떄
+// 마우스를 뗄 때
 window.addEventListener('mouseup', function(이벤트) {
     끝좌표 = [이벤트.clientX, 이벤트.clientY]; // 마우스를 땐 시점의 좌표
     x차이 = 끝좌표[0] - 시작좌표[0]; // 끝 x  빼기 시작 x
@@ -108,6 +108,29 @@ window.addEventListener('mouseup', function(이벤트) {
     // 드래그 방향에 따라 숫자 이동하기
     switch (방향) {
         case '왼쪽':
+            var 새데이터 = [
+                [],
+                [],
+                [],
+                []
+            ];
+            데이터.forEach(function(열데이터, i) {
+                열데이터.forEach(function(행데이터, j) {
+                    if(행데이터) {
+                        새데이터[i].unshift(행데이터);
+                    }
+                });
+            });
+            
+            // console.log('새데이터', 새데이터);
+            
+            // 왼쪽으로 드래그
+            [1, 2, 3, 4].forEach(function(행데이터, i) {
+                [1, 2, 3, 4].forEach(function(열데이터, j) {
+                    데이터[i][j] = 새데이터[i][j] || 0; 
+                });
+            });
+
             break;
 
         case '오른쪽':
@@ -120,7 +143,7 @@ window.addEventListener('mouseup', function(이벤트) {
             데이터.forEach(function(열데이터, i) {
                 열데이터.forEach(function(행데이터, j) {
                     if(행데이터) {
-                        새데이터[j].unshift(행데이터);
+                        새데이터[i].unshift(행데이터);
                     }
                 });
             });
