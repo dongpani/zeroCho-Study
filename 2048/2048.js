@@ -1,4 +1,5 @@
 var 테이블 = document.getElementById('table'); 
+var 점수표 = document.getElementById('score');
 var 데이터 = [];
 
 // 기본 표 그리기
@@ -33,6 +34,11 @@ function 랜덤생성() {
             }
         });
     });
+
+    // 게임종료 초기화
+    // if(빈칸배열.length === 0) {
+        
+    // }
     
     var 랜덤칸 = 빈칸배열[Math.floor(Math.random() * 빈칸배열.length)];
     // console.log('랜덤칸', 랜덤칸);
@@ -116,8 +122,14 @@ window.addEventListener('mouseup', function(이벤트) {
             ];
             데이터.forEach(function(열데이터, i) {
                 열데이터.forEach(function(행데이터, j) {
-                    if(행데이터) {
-                        새데이터[i].unshift(행데이터);
+                    if(행데이터) { // 
+                        if(새데이터[i][새데이터[i].length -1] && 새데이터[i][새데이터[i].length -1] === 행데이터) { // 왼쪽칸이 있을 때 두배로 늘림
+                            새데이터[i][새데이터[i].length -1 ] *= 2;
+                            var 현점수 = parseInt(점수표.textContent);
+                            점수표.textContent = 현점수 + 새데이터[i][새데이터[i].length - 1];
+                        } else {
+                            새데이터[i].push(행데이터);
+                        }
                     }
                 });
             });
