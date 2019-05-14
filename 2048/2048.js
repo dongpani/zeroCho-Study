@@ -36,15 +36,15 @@ function 랜덤생성() {
     });
 
     // 게임종료 초기화
-    // if(빈칸배열.length === 0) {
-        
-    // }
-    
-    var 랜덤칸 = 빈칸배열[Math.floor(Math.random() * 빈칸배열.length)];
-    // console.log('랜덤칸', 랜덤칸);
-
-    데이터[랜덤칸[0]][랜덤칸[1]] = 2;
-    그리기(); // 그리기 실행
+    if(빈칸배열.length === 0) {
+        alert('게임오버:' + 점수표.textContent);
+        테이블.innerHTML = '';
+        초기화();
+    } else {
+        var 랜덤칸 = 빈칸배열[Math.floor(Math.random() * 빈칸배열.length)];
+        데이터[랜덤칸[0]][랜덤칸[1]] = 2;
+        그리기(); // 그리기 실행        
+    }
 }
 
 function 그리기() {
@@ -155,7 +155,13 @@ window.addEventListener('mouseup', function(이벤트) {
             데이터.forEach(function(열데이터, i) {
                 열데이터.forEach(function(행데이터, j) {
                     if(행데이터) {
-                        새데이터[i].unshift(행데이터);
+                        if(새데이터[i][0] && 새데이터[i][0] === 행데이터) {
+                            새데이터[i][0] *= 2;
+                            var 현점수 = parseInt(점수표.textContent);
+                            점수표.textContent = 현점수 + 새데이터[i][0];
+                        } else {
+                            새데이터[i].unshift(행데이터);
+                        }
                     }
                 });
             });
@@ -180,7 +186,13 @@ window.addEventListener('mouseup', function(이벤트) {
            데이터.forEach(function(열데이터, i) {
                 열데이터.forEach(function(행데이터, j) {
                     if(행데이터) {
-                        새데이터[j].unshift(행데이터);
+                        if(새데이터[j][새데이터[j].length -1] && 새데이터[j][새데이터[j].length -1] === 행데이터) { // 왼쪽칸이 있을 때 두배로 늘림
+                            새데이터[j][새데이터[j].length -1 ] *= 2;
+                            var 현점수 = parseInt(점수표.textContent);
+                            점수표.textContent = 현점수 + 새데이터[j][새데이터[j].length - 1];
+                        } else {
+                            새데이터[j].push(행데이터);
+                        }
                     }
                 });
             });
@@ -205,7 +217,13 @@ window.addEventListener('mouseup', function(이벤트) {
             데이터.forEach(function(열데이터, i) {
                 열데이터.forEach(function(행데이터, j) {
                     if(행데이터) {
-                        새데이터[j].unshift(행데이터);
+                        if(새데이터[j][0] && 새데이터[j][0] === 행데이터) {
+                            새데이터[j][0] *= 2;
+                            var 현점수 = parseInt(점수표.textContent);
+                            점수표.textContent = 현점수 + 새데이터[j][0];
+                        } else {
+                            새데이터[j].unshift(행데이터);
+                        }
                     }
                 });
             });
