@@ -109,7 +109,7 @@ window.addEventListener('mouseup', function(이벤트) {
     드래그시작 = false;
     드래그중 = false;
     
-    console.log(방향);
+    // console.log(방향);
 
     // 드래그 방향에 따라 숫자 이동하기
     switch (방향) {
