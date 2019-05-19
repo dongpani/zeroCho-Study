@@ -1,6 +1,6 @@
 var tetris = document.querySelector('#tetris');
 var blockArr = [
-    ['red', true, [
+        ['red', true, [
         [1, 1],
         [1, 1],
     ]],
@@ -73,6 +73,7 @@ var blockDict = {
 }
 
 var tetrisData = [];
+var stopDown = false;  // 블록 고정 flag 변수
 
 // 행 20, 열 10 칸의 테이블을 만든다.
 // createDocumentFragment() 는 메모리를 조작
@@ -103,16 +104,45 @@ function 화면그리기() {
 }
 
 function 블록생성기() {
+    stopDown = false;
     var 블록 = blockArr[Math.floor(Math.random() * 7)][2]; // 아무거나 블록모양을 복사
     console.log(블록);
     블록.forEach(function(tr, i) {
         tr.forEach(function(td, j) {
-            tetrisData[i][j] = td;
+            // todo: 블록 생성할 때 이미 차있으면 게임오버
+            tetrisData[i][j+3] = td;
         });
     });
     
     화면그리기();
 }
+
+
+function 블록내리기() {
+    // for문을 아래서 위로 돌린다.
+    console.log('tetrisData.length', tetrisData.length);
+
+    for(var i = tetrisData.length -1; i >= 0; i--) {
+        tetrisData[i].forEach(function(td, j) {
+                if(td > 0 && td < 10) {  
+                    if(tetrisData[i+1] && !stopDown) { // 움직이는 블럭들
+                        tetrisData[i+1][j] = td;
+                        tetrisData[i][j] = 0;
+                    } else {  // 고정 블록 * 10
+                        stopDown = true;
+                        tetrisData[i][j] = td * 10;
+                    }
+                }            
+        });
+    }
+
+    if(stopDown) {
+        블록생성기();
+    }
+
+    화면그리기();
+}
+
 
 window.addEventListener('keyup', function(e) {
     console.log(e);
@@ -146,3 +176,4 @@ window.addEventListener('keydown', function(e) {
 
 칸만들기();
 블록생성기();
+setInterval(블록내리기, 1000); // 1초씩 블록을 내린다.
