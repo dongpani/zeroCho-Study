@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>테트리스</title>
+    <style>
+        #tetris, #next-table {
+            border-collapse: collapse;
+        }
+        #next-table {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        #tetris td {
+            border: 1px solid black;
+            width: 30px;
+            height: 30px;
+        }
+        #next-table td {
+            border: 1px solid black;
+            width: 15px;
+            height: 15px;
+        }
+        td.white {
+            background-color: white;
+        }
+        td.red {
+            background-color: red;
+        }
+        td.blue {
+            background-color: blue;
+        }
+        td.orange {
+            background-color: orange;
+        }
+        td.green {
+            background-color: green;
+        }
+        td.navy {
+            background-color: navy;
+        }
+        td.violet {
+            background-color: violet;
+        }
+        td.yellow {
+            background-color: yellow;
+        }
+        td.black {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <table id="tetris">
+    </table>
+    <table id="next-table">
+        <tr>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+            <td></td><td></td><td></td><td></td>
+        </tr>
+    </table>
+    <button id="stop">중단</button>
+    <button id="start">재개</button>
+    <button id="mute">소리끔</button>
+    <div>점수: <span id="score">0</span></div>
+    <!-- <audio id="bgm" src="./Tetris_theme.ogg.mp3" autoplay></audio> -->
+    <script src="./테트리스2.js"></script>
+
+</body>
+</html>
