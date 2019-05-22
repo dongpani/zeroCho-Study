@@ -217,6 +217,7 @@ function init() {
     tetrisData.push(column);
   });
   tetris.appendChild(fragment);
+  console.log('tetrisData', tetrisData);
 }
 
 function draw() {
@@ -248,7 +249,7 @@ function drawNext() { // 다음 블록 그리는 함수
 
 function generate() { // 테트리스 블록 생성
   if (!currentBlock) {
-    currentBlock = blocks[Math.floor(Math.random() * blocks.length)];
+    currentBlock = blocks[Math.floor(Math.random() * blocks.length)]; // 랜덤 블록을 가져옴
   } else {
     currentBlock = nextBlock;
   }
@@ -348,7 +349,7 @@ function tick() { // 한 칸 아래로
   }
 }
 
-let int = setInterval(tick, 2000);
+let int = setInterval(tick, 1000);
 init();
 generate();
 
